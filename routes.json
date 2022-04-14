@@ -1,0 +1,3 @@
+{
+    "/rules/:id/executions": "/executions?rule_id=:id"
+}
