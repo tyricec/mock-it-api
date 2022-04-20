@@ -55,9 +55,7 @@ const thresholdParameters = {
 const getData = () => {
     const data = {};
 
-    data.devices = {
-        ...commonFields,
-        objects: Array(20).fill()
+    data.devices = Array(20).fill()
         .map(() => ({
             id: casual.uuid,
             title: casual.device,
@@ -68,11 +66,8 @@ const getData = () => {
             },
             device_state: casual.random_element(['unknown', 'connected', 'disconnected', 'turned_off']),
             sensors_state: casual.random_element(['healthy', 'unhealthy']),
-        }))
-    };
-    data.rules = {
-        ...commonFields,
-        objects: Array(5).fill()
+        }));
+    data.rules = Array(5).fill()
             .map(() => ({
                 id: casual.uuid,
                 title: casual.title,
@@ -97,19 +92,18 @@ const getData = () => {
                 if (rule.is_global) {
                     newRule.device_profiles = [];
                 } else {
-                    const device = casual.random_element(data.devices.objects);
+                    const device = casual.random_element(data.devices);
                     newRule.device_profiles = [device.id];
                 }
 
                 newRule.parameters = thresholdParameters[rule.type];
 
                 return newRule;
-            }),
-    };
+            });
     data.executions = Array(3000).fill()
         .map(() => {
-            const rule = casual.random_element(data.rules.objects);
-            const device = casual.random_element(data.devices.objects);
+            const rule = casual.random_element(data.rules);
+            const device = casual.random_element(data.devices);
             const JAN_1_2001_MS = 1609459200000;
             const APR_14_2022_MS = 1649894400000;
 
